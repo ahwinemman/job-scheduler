@@ -1,5 +1,6 @@
 package com.rukevwe.jobscheduler.enums;
 
 public enum Status {
-    QUEUED, RUNNING, SUCCESS, FAILED
+    QUEUED, RUNNING, SUCCESS, FAILED;
+
 }

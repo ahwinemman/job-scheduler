@@ -6,7 +6,6 @@ import com.rukevwe.jobscheduler.model.ScheduleRequest;
 import com.rukevwe.jobscheduler.repository.JobRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,12 +19,10 @@ public class JobServiceImpl implements JobService {
     private JobRepository jobRepository;
     private Scheduler scheduler;
 
-    @Value("${ready-to-run.queue.name}")
-    private String readyToRunQueue;
-
     @Autowired
-    public JobServiceImpl(JobRepository jobRepository) {
+    public JobServiceImpl(JobRepository jobRepository, Scheduler scheduler) {
         this.jobRepository = jobRepository;
+        this.scheduler = scheduler;
     }
 
 

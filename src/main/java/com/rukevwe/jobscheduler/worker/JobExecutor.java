@@ -35,9 +35,9 @@ public class JobExecutor {
     private void execute(Job job) {
         job.setStatus(Status.RUNNING);
         job.setLastStartTime(new Date());
+        jobRepository.save(job);
 
         IWorker worker = workerFactory.getWorker(job.getType());
-
         try {
             worker.executeJob(job);
             job.setLastEndTime(new Date());
@@ -45,13 +45,13 @@ public class JobExecutor {
                 job.setNextStartTime(DateHandler.getNextStartTime(job));
             }
             job.setStatus(Status.SUCCESS);
+            jobRepository.save(job);
         } catch (Exception ex) {
             job.setStatus(Status.FAILED);
             job.setFailedCount(job.getFailedCount() + 1);
             job.setNextStartTime(null);
-
+            jobRepository.save(job);
             log.error("Error executing job with id {}, will attempt to retry", job.getId(), ex);
         }
-        jobRepository.save(job);
     }
 }
