@@ -88,6 +88,7 @@ public class Scheduler implements ApplicationListener<ApplicationReadyEvent> {
             for (Map.Entry<Priority, Job> failedJobMap : sortedFailedJobs.entrySet()) {
                 Job failedJob = failedJobMap.getValue();
                 failedJob.setStatus(Status.QUEUED);
+                jobRepository.save(failedJob);
                 jmsTemplate.convertAndSend(readyToRetryQueue, failedJob);
             }
         }
@@ -107,6 +108,7 @@ public class Scheduler implements ApplicationListener<ApplicationReadyEvent> {
             for (Map.Entry<Priority, Job> dueJobMap : sortedDueJobs.entrySet()) {
                 Job dueJob = dueJobMap.getValue();
                 dueJob.setStatus(Status.QUEUED);
+                jobRepository.save(dueJob);
                 jmsTemplate.convertAndSend(readyToRunQueue, dueJob);
             }
         }
