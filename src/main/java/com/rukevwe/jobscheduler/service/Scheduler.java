@@ -79,7 +79,7 @@ public class Scheduler implements ApplicationListener<ApplicationReadyEvent> {
             if (retryFailedJobs) {
                 // get failed jobs
                 List<Job> failedJobs = jobRepository.findByStatus(Status.FAILED);
-                // sort based on last start time
+                // sort based on priority
                 for (Job job : failedJobs) {
                     sortedFailedJobs.put(job.getPriority(), job);
                 }
